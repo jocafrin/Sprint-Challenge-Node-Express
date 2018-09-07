@@ -1,19 +1,12 @@
 const express = require("express");
-const actions = require("./data/helpers/actionModel");
-const projects = require("./data/helpers/projectModel");
+
+const actionRoutes = require("./data/actions/routes");
+const projectRoutes = require("./data/projects/routes");
+
 const server = express();
+
 server.use(express.json());
+server.use("/actions", actionRoutes);
+server.use("/projects", projectRoutes);
 
-
-// ___endpoints__
-
-server.get('/projects', (req, res) => {
-    projects.get()
-    .then(projects => {
-        res.status(200).json(projects);
-    })
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({ error: "The project information could not be retrieved." });
-    })
-})
+server.listen(5000, () => console.log("API running on port 5000"));
